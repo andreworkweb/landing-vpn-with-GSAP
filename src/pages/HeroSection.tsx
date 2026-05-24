@@ -106,7 +106,21 @@ const HeroSection: React.FC = () => {
             rotateY: 180,
         })
 
-        
+        //cardeffect
+        gsap.from(".cardeffect", {
+            scale:1.3,
+            rotateX: 80,
+            duration: 1.5,
+
+            onComplete: () => {
+                gsap.to(".cardeffect", {
+                    rotateY: 8,
+                    repeat: -1,
+                    yoyo: true,
+                    duration:1
+                })
+            }
+        })
         
 
     }, {scope: containerRefGSAP})
@@ -138,7 +152,7 @@ const HeroSection: React.FC = () => {
                 </div>
             </div>
 
-            <div className="flex justify-around py-15 rounded-2xl shadow-2xl shadow-black/10">
+            <div className="cardeffect flex justify-around py-15 rounded-2xl shadow-2xl shadow-black/10">
                 <div className="grid grid-cols-2 items-center gap-x-9">
                     <img src={UserIcon} className="row-span-2 self-center" alt="" />
                     <p className="font-Rubik font-bold">90+</p>
