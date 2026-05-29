@@ -4,6 +4,7 @@ import Header from './layout/header'
 import ChoosePlanSection from './pages/ChoosePlanSection'
 import CTASection from './pages/CTASection'
 import FeaturesSection from './pages/FeaturesSection'
+import FooterSection from './pages/FooterSection'
 import HeroSection from './pages/HeroSection'
 import TestimonialsSection from './pages/TestimonialsSection'
 import VpnMapSection from './pages/VpnMapSection'
@@ -19,6 +20,7 @@ function App() {
       <VpnMapSection />
       <TestimonialsSection />
       <CTASection />
+      <FooterSection />
     </>
   )
 }
