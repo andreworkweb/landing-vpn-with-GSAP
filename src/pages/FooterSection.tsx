@@ -4,11 +4,32 @@ import FacebookIco from "../assets/footer-section/Facebook.svg";
 import TwitterIco from "../assets/footer-section/Twitter.svg";
 import InstagramIco from "../assets/footer-section/Instagram.svg";
 
+import gsap from "gsap";
+import { useRef } from "react";
+import { ScrollTrigger } from "gsap/all";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const MediaIco = [FacebookIco, TwitterIco, InstagramIco];
 
 const FooterSection = () => {
+  const ContainerRefGSAP = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    gsap.from(".footer-div", {
+       filter: "blur(10px)",
+       opacity: 0,
+       scrollTrigger: {
+        trigger: ".footer-div",
+        start: "top 80%"
+       }
+    })
+  }, {scope: ContainerRefGSAP})
+
   return (
-    <section className="mt-15 bg-[#F8F8F8]">
+    <section ref={ContainerRefGSAP} className="mt-15 bg-[#F8F8F8]">
+      <div className="footer-div">
       <div className="flex justify-between max-w-7xl mx-auto pt-10 pb-10">
         <div className="grid items-center gap-3 text-xl text-[#0B132A]">
           <div className="flex flex-col">
@@ -77,6 +98,7 @@ const FooterSection = () => {
             <p>Become Partner</p>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

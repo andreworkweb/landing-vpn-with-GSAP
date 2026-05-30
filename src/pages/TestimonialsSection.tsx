@@ -4,6 +4,13 @@ import Joupfp from "../assets/Reviews-section/pfp/Joupfp.png";
 
 import StarIco from "../assets/Reviews-section/pfp/starVector.svg";
 
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const TestimonialsData = [
   {
     name: "Viezh Robert",
@@ -36,19 +43,56 @@ const TestimonialsData = [
   },
 ];
 const TestimonialsSection = () => {
+  const ContainerRefGSAP = useRef<HTMLElement>(null);
+  useGSAP(
+    () => {
+      gsap.from(".testimContainer", {
+        opacity: 0,
+        scale:0.8,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".testimContainer",
+          start: "top 80%",
+        },
+      });
+
+      gsap.to(".scale-text", {
+        scale: 1.1,
+        repeat: 1,
+        yoyo: true,
+        scrollTrigger: {
+          trigger: ".scale-text",
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(".describe", {
+        filter: "blur(10px)",
+        opacity: 0,
+        duration: 0.5,
+        scrollTrigger: {
+          trigger: ".describe",
+          start: "top 80%",
+        },
+      });
+    },
+    { scope: ContainerRefGSAP },
+  );
+
   return (
-    <section className="mx-auto">
+    <section ref={ContainerRefGSAP} className="mx-auto">
       <div className="text-center">
         <p className="font-Rubik mx-auto font-medium mb-5 text-4xl max-w-md text-[#0B132A]">
-          Trusted by Thousands of Happy Customer
+          Trusted by Thousands of{" "}
+          <span className="scale-text inline-flex">Happy</span> Customer
         </p>
-        <p className="font-Rubik mx-auto font-medium max-w-xl text-[#4F5665]">
+        <p className="describe font-Rubik mx-auto font-medium max-w-xl text-[#4F5665]">
           These are the stories of our customers who have joined us with great
           pleasure when using this crazy feature.
         </p>
       </div>
 
-      <div className="flex justify-end flex-wrap gap-12.5 mt-17">
+      <div className="testimContainer flex justify-end flex-wrap gap-12.5 mt-17">
         {TestimonialsData.map((testimonials) => (
           <div
             key={testimonials.name}
@@ -75,7 +119,7 @@ const TestimonialsSection = () => {
               <div className="flex items-center gap-1">
                 <p>{testimonials.rating}</p>
                 <span>
-                  <img src={StarIco} alt="star" className="w-4 h-4" />
+                  <img src={StarIco} alt="star" className="star w-4 h-4" />
                 </span>
               </div>
             </div>

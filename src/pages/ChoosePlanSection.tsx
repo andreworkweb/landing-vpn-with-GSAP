@@ -3,6 +3,13 @@ import StandardPlanImg from "../assets/plan/Standard.svg";
 import PremiumPlanImg from "../assets/plan/Premium.svg";
 import CheckIco from "../assets/jam_check.svg";
 
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const planCard = [
   {
     title: "Free Plan",
@@ -47,21 +54,67 @@ const planCard = [
 ];
 
 const ChoosePlanSection = () => {
+  const ContainerRef = useRef<HTMLElement>(null);
+  useGSAP(
+    () => {
+      gsap.to(".Your", {
+        scale: 1.25,
+        repeat: 1,
+        yoyo: true,
+        scrollTrigger: {
+          trigger: ContainerRef.current,
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(".describe", {
+        filter: "blur(10px)",
+        opacity: 0,
+        duration: 0.5,
+        scrollTrigger: {
+          trigger: ".describe",
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(".cards", {
+        opacity: 0,
+        duration: 1,
+        x: -20,
+        scrollTrigger: {
+          trigger: ContainerRef.current,
+          start: "top 80%",
+        },
+        onComplete: () => {
+          gsap.to(".cards", {
+            scale: 1.04,
+            repeat: 1,
+            yoyo: true,
+          })
+        }
+      });
+    },
+    { scope: ContainerRef },
+  );
+
   return (
-    <section className="grid mt-20 max-w-7xl mx-auto">
+    <section ref={ContainerRef} className="grid mt-20 max-w-7xl mx-auto">
       <div className="text-center">
         <p className="font-Rubik font-medium mb-4 text-[2.5rem]">
-          Choose Your Plan
+          Choose <span className="Your inline-flex">Your</span> Plan
         </p>
-        <p className="mb-15 font-Rubik font-base text-[#4F5665]">
+        <p className="describe mb-15 font-Rubik font-base text-[#4F5665]">
           Let's choose the package that is best for you and explore it happily
           and cheerfully.
         </p>
       </div>
 
-      <div className="flex justify-center text-center items-stretch gap-x-15">
+      <div className="cards flex justify-center text-center items-stretch gap-x-15">
         {planCard.map((plan) => (
-          <div key={plan.title} className="flex flex-col px-17.25 py-20 rounded-xl border-2 border-[#DDDDDD] hover:border-[#F53838] transition-all  duration-300">
+          <div
+            key={plan.title}
+            className=" flex flex-col px-17.25 py-20 rounded-xl border-2 border-[#DDDDDD] hover:border-[#F53838] transition-all  duration-300"
+          >
             <img
               src={plan.img}
               alt=""
